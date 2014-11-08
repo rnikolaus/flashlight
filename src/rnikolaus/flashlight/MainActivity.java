@@ -36,23 +36,17 @@ public class MainActivity extends ActionBarActivity {
 	 * @param on
 	 */
 	public void flashlight(boolean on) {
-		try {
-			Parameters p = mCamera.getParameters();
-			if (on) {
-				if (!p.getFlashMode().equals(Parameters.FLASH_MODE_TORCH)) {
-					p.setFlashMode(Parameters.FLASH_MODE_TORCH);
-					mCamera.setParameters(p);
-				}
-			} else {
-				if (p.getFlashMode().equals(Parameters.FLASH_MODE_TORCH)) {
-					p.setFlashMode(Parameters.FLASH_MODE_OFF);
-					mCamera.setParameters(p);
-				}
+		Parameters p = mCamera.getParameters();
+		if (on) {
+			if (!p.getFlashMode().equals(Parameters.FLASH_MODE_TORCH)) {
+				p.setFlashMode(Parameters.FLASH_MODE_TORCH);
+				mCamera.setParameters(p);
 			}
-		} catch (RuntimeException ex) {
-			// A screen orientation change during flashing morse code signals
-			// might end here,
-			// as the flash might be used before the camera is reinitialized
+		} else {
+			if (p.getFlashMode().equals(Parameters.FLASH_MODE_TORCH)) {
+				p.setFlashMode(Parameters.FLASH_MODE_OFF);
+				mCamera.setParameters(p);
+			}
 		}
 	}
 
@@ -117,6 +111,12 @@ public class MainActivity extends ActionBarActivity {
 		super.onPause();
 		if (blinkThread != null) {
 			blinkThread.interrupt();// stop blinking
+			try {
+				blinkThread.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		if (mCamera != null) {
 			mCamera.release();// release the cam to other apps
