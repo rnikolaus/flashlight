@@ -114,8 +114,7 @@ public class MainActivity extends ActionBarActivity {
 			try {
 				blinkThread.join();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//do nothing
 			}
 		}
 		if (mCamera != null) {
@@ -127,7 +126,6 @@ public class MainActivity extends ActionBarActivity {
 
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		toggleButtonAction();
 	}
